@@ -4,7 +4,7 @@ from PIL import Image
 import os
 
 app = Flask(__name__)
-app.secret_key = 'supersecretkey'  # Needed for flashing messages
+app.secret_key = 'supersecretkey'
 
 @app.route('/')
 def index():
@@ -18,24 +18,18 @@ def remove_background():
             return redirect(url_for('index'))
 
         input_image = request.files['image']
-        input_image_path = 'input_image.jpg'  # Temporarily save the uploaded image
+        input_image_path = 'static/input_image.jpg'
         input_image.save(input_image_path)
 
-        output_image_path = 'output.png'  # Save the output with a transparent background
-
+        output_image_path = 'static/output.png'
         input_image = Image.open(input_image_path)
         output_image = remove(input_image)
-
-        # Save the output image with transparent background
         output_image.save(output_image_path)
-
-        # Delete the temporary input image
         os.remove(input_image_path)
 
-        return send_file(output_image_path, mimetype='image/png')
+        return render_template('result.html', before_image=input_image_path, after_image=output_image_path)
 
     except Exception as e:
-        print(f"Error: {e}")  # Print the error to the console
         flash(f"An error occurred: {e}")
         return redirect(url_for('index'))
 

@@ -1,8 +1,4 @@
-Flask==2.0.1
-rembg==2.0.30
-Pillow==9.1.0
-Werkzeug==2.0.3
-Jinja2==3.0.1
-click==8.0.1
-itsdangerous==2.0.1
-MarkupSafe==2.0.1
+Flask==2.3.2  # Latest stable version of Flask
+rembg==2.0.57
+Pillow==9.1.1
+gunicorn==20.1.0
