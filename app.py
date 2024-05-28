@@ -1,7 +1,8 @@
-from flask import Flask, render_template, request, send_file, flash, redirect, url_for
+from flask import Flask, request, send_file, flash, redirect, url_for, render_template
 from rembg import remove
 from PIL import Image
 import os
+import tempfile
 
 app = Flask(__name__)
 app.secret_key = 'supersecretkey'
@@ -18,16 +19,19 @@ def remove_background():
             return redirect(url_for('index'))
 
         input_image = request.files['image']
-        input_image_path = 'input_image.jpg'
+        
+        # Create a temporary directory to store the uploaded image
+        temp_dir = tempfile.mkdtemp()
+        input_image_path = os.path.join(temp_dir, 'input_image.jpg')
         input_image.save(input_image_path)
 
-        output_image_path = 'output.png'
+        output_image_path = os.path.join(temp_dir, 'output.png')
         input_image = Image.open(input_image_path)
         output_image = remove(input_image)
         output_image.save(output_image_path)
-        os.remove(input_image_path)
 
-        return send_file(output_image_path, mimetype='image/png', as_attachment=True)
+        # Send the output image file as an attachment for download
+        return send_file(output_image_path, as_attachment=True)
 
     except Exception as e:
         flash(f"An error occurred: {e}")
