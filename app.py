@@ -18,20 +18,20 @@ def remove_background():
             return redirect(url_for('index'))
 
         input_image = request.files['image']
-        input_image_path = 'static/input_image.jpg'
+        input_image_path = 'input_image.jpg'
         input_image.save(input_image_path)
 
-        output_image_path = 'static/output.png'
+        output_image_path = 'output.png'
         input_image = Image.open(input_image_path)
         output_image = remove(input_image)
         output_image.save(output_image_path)
         os.remove(input_image_path)
 
-        return render_template('result.html', before_image='input_image.jpg', after_image='output.png')
+        return send_file(output_image_path, mimetype='image/png', as_attachment=True)
 
     except Exception as e:
         flash(f"An error occurred: {e}")
         return redirect(url_for('index'))
 
 if __name__ == '__main__':
-    app.run(debug=True , port=5000)
+    app.run(debug=True, port=5000)

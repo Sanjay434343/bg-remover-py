@@ -7,11 +7,8 @@
 </head>
 <body>
     <div class="container">
-        <h3 class="text-center">Before</h3>
-        <img src="{{ url_for('static', filename=before_image) }}" alt="Before Image" class="img-fluid">
-        
         <h3 class="text-center">After</h3>
-        <img src="{{ url_for('static', filename=after_image) }}" alt="After Image" class="img-fluid">
+        <img src="{{ url_for('remove_background') }}" alt="After Image" class="img-fluid">
     </div>
 </body>
 </html>
