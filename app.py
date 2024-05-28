@@ -27,11 +27,11 @@ def remove_background():
         output_image.save(output_image_path)
         os.remove(input_image_path)
 
-        return render_template('result.html', before_image=input_image_path, after_image=output_image_path)
+        return render_template('result.html', before_image='input_image.jpg', after_image='output.png')
 
     except Exception as e:
         flash(f"An error occurred: {e}")
         return redirect(url_for('index'))
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5000)  # Added port argument to specify the port
+    app.run(debug=True , port=5000)
